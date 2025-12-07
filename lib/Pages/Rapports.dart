@@ -24,16 +24,11 @@ class _RapportsPageState extends State<RapportsPage> {
     });
     print(rapport["resultat"][0]);
   }
-  @override
-  void dispose(){
-    super.dispose();
-    rapport.dispose();
-  }
-  @override
-  void initState(){
+@override
+void initState(){
     super.initState();
     afficher_rapport();
-  }
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,8 +41,7 @@ class _RapportsPageState extends State<RapportsPage> {
           Container(height: MediaQuery.of(context).size.height *0.004,
           width: MediaQuery.of(context).size.width *0.6,
           color: Colors.black,),
-
-          Container(
+          rapport!=null?Container(
             height: MediaQuery.of(context).size.height *0.9,
 
             child: ListView.builder(itemCount: rapport["resultat"].length,itemBuilder: (context, index) => ListTile(
@@ -55,9 +49,15 @@ class _RapportsPageState extends State<RapportsPage> {
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>PageRapports(rapport:rapport["resultat"][index],)));
               },
               title: Text("RAPPORT ${index+1}",style: TextStyle(fontFamily: "Poppins",color: Colors.green),),
-              subtitle: Text("${rapport["resultat"][0][5]}",style: TextStyle(fontFamily: "Poppins",color: Colors.black45),),
+              subtitle: Text("${rapport["resultat"][index][5]}",style: TextStyle(fontFamily: "Poppins",color: Colors.black45),),
               trailing: Container(child: Icon(Icons.arrow_forward,color: Colors.green,),),
-            ),),)
+            ),),):Container(
+            margin: EdgeInsets.only(top: MediaQuery.of(context).size.height *0.1),
+            child: Center(child: Column(children: [
+              CircularProgressIndicator(),
+              SizedBox(height: MediaQuery.of(context).size.height *0.05,),
+              Text("Chargement...",style: TextStyle(fontFamily: "Poppins"),)
+            ],)),)
         ],) ,
       ),
     );
